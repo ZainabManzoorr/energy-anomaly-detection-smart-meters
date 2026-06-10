@@ -1,9 +1,98 @@
-# Ignore datasets
-data/
-
-# Python cache
+# =========================
+# Python
+# =========================
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Virtual environments
+# =========================
+# Virtual Environment
+# =========================
 .venv/
+venv/
+env/
+
+# =========================
+# Poetry
+# =========================
+poetry.toml
+
+# (Keep poetry.lock committed for reproducibility)
+# poetry.lock
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Testing / Coverage
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# =========================
+# Build Artifacts
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Streamlit
+# =========================
+.streamlit/secrets.toml
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+
+# =========================
+# Large Data Files
+# =========================
+data/raw/
+data/processed/
+*.csv
+*.7z
+*.zip
+*.parquet
+
+# =========================
+# Model Files (future)
+# =========================
+models/
+*.pkl
+*.joblib
+*.onnx
+
+# =========================
+# Generated Reports / Plots
+# =========================
+outputs/
+reports/
+figures/
+*.png
+*.jpg
+*.jpeg
+*.svg
