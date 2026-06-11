@@ -2,27 +2,44 @@ class InsightGenerator:
 
     @staticmethod
     def peak_hour(hourly_df):
+        peak = hourly_df.loc[hourly_df["energy"].idxmax()]
+        return (
+            f"Peak energy usage occurs at {int(peak['hour'])}:00 "
+            f"with an average consumption of {peak['energy']:.2f} W."
+        )
 
-        print("DEBUG columns:", hourly_df.columns)
+    @staticmethod
+    def lowest_hour(hourly_df):
+        low = hourly_df.loc[hourly_df["energy"].idxmin()]
+        return (
+            f"Lowest energy usage occurs at {int(low['hour'])}:00 "
+            f"with an average consumption of {low['energy']:.2f} W."
+        )
+    @staticmethod
+    def highest_consuming_house(houses_df):
 
-        # find correct energy column dynamically
-        possible_cols = ["avg_energy", "aggregate", "energy"]
-
-        value_col = None
-        for col in possible_cols:
-            if col in hourly_df.columns:
-                value_col = col
-                break
-
-        if value_col is None:
-            raise ValueError(f"No valid energy column found. Columns are: {list(hourly_df.columns)}")
-
-        peak_row = hourly_df.loc[
-            hourly_df[value_col].idxmax()
-        ]
+        top = houses_df.iloc[0]
 
         return (
-            f"Peak energy usage occurs at "
-            f"{int(peak_row['hour'])}:00 with average consumption "
-            f"of {peak_row[value_col]:.2f} watts."
+            f"{top['house_id']} is the highest energy consumer "
+            f"with a total usage of {top['total_energy']:.0f} units."
+        )
+        
+    @staticmethod
+    def weekend_summary(df):
+
+      weekday = df[df["is_weekend"] == False]["avg_energy"].values[0]
+      weekend = df[df["is_weekend"] == True]["avg_energy"].values[0]
+
+      difference = ((weekend - weekday) / weekday) * 100
+
+      if difference > 0:
+        return (
+            f"Weekend energy consumption is "
+            f"{difference:.1f}% higher than weekdays."
+        )
+      else:
+        return (
+            f"Weekend energy consumption is "
+            f"{abs(difference):.1f}% lower than weekdays."
         )
