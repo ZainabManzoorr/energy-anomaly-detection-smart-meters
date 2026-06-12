@@ -43,3 +43,22 @@ class InsightGenerator:
             f"Weekend energy consumption is "
             f"{abs(difference):.1f}% lower than weekdays."
         )
+    @staticmethod
+    def anomaly_summary(high_anomalies, low_anomalies):
+
+        if high_anomalies.empty and low_anomalies.empty:
+            return "✅ No significant energy anomalies detected."
+
+        summary = []
+
+        if not high_anomalies.empty:
+            summary.append(
+                f" {len(high_anomalies)} high-energy anomalies detected."
+            )
+
+        if not low_anomalies.empty:
+            summary.append(
+                f" {len(low_anomalies)} low-energy anomalies detected."
+            )
+
+        return "\n".join(summary)

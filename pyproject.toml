@@ -1,0 +1,24 @@
+[project]
+name = "voltsense"
+version = "0.1.0"
+description = "Smart Energy Analytics & Anomaly Detection System"
+authors = [
+    {name = "Zainab Manzoor",email = "zainabmanzoorzoor@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pandas (>=3.0.3,<4.0.0)",
+    "numpy (>=2.4.6,<3.0.0)",
+    "scikit-learn (>=1.9.0,<2.0.0)",
+    "plotly (>=6.8.0,<7.0.0)",
+    "streamlit (>=1.58.0,<2.0.0)",
+    "matplotlib (>=3.10.9,<4.0.0)",
+    "py7zr (>=1.1.0,<2.0.0)",
+    "git-filter-repo (>=2.47.0,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
