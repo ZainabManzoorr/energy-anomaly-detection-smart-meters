@@ -1,10 +1,5 @@
 import streamlit as st
-import pandas as pd
-
-
-
-from src.voltsense.ingestion.multi_loader import MultiHouseDataLoader
-from src.voltsense.analytics.energy_analytics import EnergyAnalytics
+from pathlib import Path
 
 # -------------------------
 # CONFIG
@@ -14,31 +9,28 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("VoltSense – Energy Intelligence Dashboard")
+st.title("⚡ VoltSense – Energy Intelligence Dashboard")
 
 # -------------------------
-# LOAD DATA
+# PATH SETUP
 # -------------------------
-@st.cache_data
-def load_data():
-    loader = MultiHouseDataLoader("data/raw/refit_extracted")
-    df = loader.load_all()
-    return df
+BASE_DIR = Path(__file__).resolve().parent
+PLOT_DIR = BASE_DIR / "outputs" / "plots"
 
-df = load_data()
-
-analytics = EnergyAnalytics(df)
-analytics.prepare_time_series()
-
-daily = analytics.daily_consumption()
-hourly = analytics.hourly_consumption()
-houses = analytics.house_consumption()
-weekend = analytics.weekend_vs_weekday()
+# -------------------------
+# CHECK FILES EXIST
+# -------------------------
+def get_plot(file_name):
+    path = PLOT_DIR / file_name
+    if path.exists():
+        return str(path)
+    else:
+        return None
 
 # -------------------------
 # SIDEBAR
 # -------------------------
-st.sidebar.title("Navigation")
+st.sidebar.title("📊 Navigation")
 
 page = st.sidebar.radio(
     "Go to",
@@ -50,63 +42,80 @@ page = st.sidebar.radio(
 # -------------------------
 if page == "Overview":
 
-    st.header("Key Metrics")
+    st.header("📌 Key Metrics")
 
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("Total Records", len(df))
-    col2.metric("Total Houses", houses.shape[0])
-    col3.metric("Days Analyzed", daily.shape[0])
+    col1.metric("Total Records", "Preprocessed")
+    col2.metric("Total Houses", "21")
+    col3.metric("Days Analyzed", "Available")
 
     st.divider()
 
-    st.subheader("Daily Energy Trend")
-    st.image("outputs/plots/daily_total_energy.png")
+    st.subheader("📈 Daily Energy Trend")
+
+    img = get_plot("daily_total_energy.png")
+    if img:
+        st.image(img)
+    else:
+        st.warning("daily_total_energy.png not found")
 
 # -------------------------
 # TRENDS
 # -------------------------
 elif page == "Trends":
 
-    st.header("Energy Trends")
+    st.header("📈 Energy Trends")
 
     st.subheader("Daily Total Energy")
-    st.image("outputs/plots/daily_total_energy.png")
+    img = get_plot("daily_total_energy.png")
+    if img:
+        st.image(img)
 
     st.subheader("Daily Average Energy")
-    st.image("outputs/plots/daily_average_energy.png")
+    img = get_plot("daily_average_energy.png")
+    if img:
+        st.image(img)
 
     st.subheader("Hourly Pattern")
-    st.image("outputs/plots/hourly_energy_pattern.png")
+    img = get_plot("hourly_energy_pattern.png")
+    if img:
+        st.image(img)
 
 # -------------------------
 # PATTERNS
 # -------------------------
 elif page == "Patterns":
 
-    st.header("Consumption Patterns")
+    st.header("🔍 Consumption Patterns")
 
     st.subheader("House Comparison")
-    st.image("outputs/plots/house_comparison.png")
+    img = get_plot("house_comparison.png")
+    if img:
+        st.image(img)
 
     st.subheader("Weekend vs Weekday")
-    st.image("outputs/plots/weekend_vs_weekday.png")
+    img = get_plot("weekend_vs_weekday.png")
+    if img:
+        st.image(img)
 
 # -------------------------
 # INSIGHTS
 # -------------------------
 elif page == "Insights":
 
-    st.header("Insights Dashboard")
+    st.header("🧠 Insights Dashboard")
 
     st.success("Energy usage shows strong daily cyclic behavior.")
-
     st.info("Peak consumption typically occurs during evening hours.")
-
     st.warning("Certain houses consume significantly more energy than others.")
 
     st.divider()
 
-    st.subheader("Anomaly Detection")
+    st.subheader("🚨 Anomaly Detection")
 
-    st.image("outputs/plots/daily_anomalies.png")
+    img = get_plot("daily_anomalies.png")
+    if img:
+        st.image(img)
+    else:
+        st.error("Anomaly plot not found")
