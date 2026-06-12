@@ -1,8 +1,10 @@
 import streamlit as st
 import pandas as pd
 
-from voltsense.ingestion.multi_loader import MultiHouseDataLoader
-from voltsense.analytics.energy_analytics import EnergyAnalytics
+
+
+from src.voltsense.ingestion.multi_loader import MultiHouseDataLoader
+from src.voltsense.analytics.energy_analytics import EnergyAnalytics
 
 # -------------------------
 # CONFIG
