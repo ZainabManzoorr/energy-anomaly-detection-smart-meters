@@ -42,7 +42,7 @@ page = st.sidebar.radio(
 # -------------------------
 if page == "Overview":
 
-    st.header("📌 Key Metrics")
+    st.header("Key Metrics")
 
     col1, col2, col3 = st.columns(3)
 
@@ -52,7 +52,7 @@ if page == "Overview":
 
     st.divider()
 
-    st.subheader("📈 Daily Energy Trend")
+    st.subheader("Daily Energy Trend")
 
     img = get_plot("daily_total_energy.png")
     if img:
@@ -65,7 +65,7 @@ if page == "Overview":
 # -------------------------
 elif page == "Trends":
 
-    st.header("📈 Energy Trends")
+    st.header("Energy Trends")
 
     st.subheader("Daily Total Energy")
     img = get_plot("daily_total_energy.png")
