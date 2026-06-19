@@ -1,37 +1,39 @@
 import pandas as pd
-import os
+from pathlib import Path
 
+class DataLoader:
 
-class MultiHouseDataLoader:
+    def load_data(self, relative_path):
+        base_path = Path(__file__).resolve().parents[3]
+        file_path = base_path / relative_path
 
-    def __init__(self, folder_path: str):
-        self.folder_path = folder_path
+        if not file_path.exists():
+            raise FileNotFoundError(f"File not found: {file_path}")
 
-    def get_files(self):
-        return [
-            f for f in os.listdir(self.folder_path)
-            if f.endswith(".csv")
-        ]
+        df = pd.read_csv(file_path)
+        df.columns = [c.lower().strip() for c in df.columns]
 
-    def load_all(self, max_rows_per_file=200000):
-        all_data = []
+        return df
+     
+    def sample_by_house(self, df, house_sample_size: int, random_state: int = 42):
 
-        for file in self.get_files():
-            path = os.path.join(self.folder_path, file)
+        sampled_df = (
+            df.groupby("house_id", group_keys=False)
+              .apply(lambda x: x.sample(
+                  n=min(len(x), house_sample_size),
+                  random_state=random_state
+              ))
+              .reset_index(drop=True)
+        )
 
-            print(f"Loading: {file}")
+        return sampled_df
+    
+    """
+    Randomly samples up to `house_sample_size`
+    rows from each house.
 
-            # STREAMING LOAD (CRITICAL FIX)
-            df = pd.read_csv(
-                path,
-                engine="c",
-                low_memory=True,
-                nrows=max_rows_per_file  # prevents memory crash
-            )
-
-            df.columns = [c.lower().strip() for c in df.columns]
-            df["house_id"] = file.replace(".csv", "")
-
-            all_data.append(df)
-
-        return pd.concat(all_data, ignore_index=True)
+    Used for fast development and EDA.
+    Not recommended for sequence modeling
+    because temporal order is lost.
+    """
+    print(f"data loaded")
