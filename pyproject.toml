@@ -1,23 +1,21 @@
-[project]
+[tool.poetry]
 name = "voltsense"
 version = "0.1.0"
 description = "Smart Energy Analytics & Anomaly Detection System"
-authors = [
-    {name = "Zainab Manzoor",email = "zainabmanzoorzoor@gmail.com"}
-]
-readme = "README.md"
-requires-python = ">=3.14"
-dependencies = [
-    "pandas (>=3.0.3,<4.0.0)",
-    "numpy (>=2.4.6,<3.0.0)",
-    "scikit-learn (>=1.9.0,<2.0.0)",
-    "plotly (>=6.8.0,<7.0.0)",
-    "streamlit (>=1.58.0,<2.0.0)",
-    "matplotlib (>=3.10.9,<4.0.0)",
-    "py7zr (>=1.1.0,<2.0.0)",
-    "git-filter-repo (>=2.47.0,<3.0.0)"
-]
+authors = ["Zainab Manzoor <zainabmanzoorzoor@gmail.com>"]
 
+[tool.poetry.dependencies]
+python = ">=3.10,<3.14"
+
+pandas = ">=2.0.0,<3.0.0"
+numpy = ">=1.24.0,<3.0.0"
+scikit-learn = ">=1.3.0,<2.0.0"
+plotly = ">=5.0.0,<6.0.0"
+streamlit = ">=1.28.0,<2.0.0"
+matplotlib = ">=3.7.0,<4.0.0"
+py7zr = ">=0.20.0,<1.0.0"
+git-filter-repo = ">=2.0.0,<3.0.0"
+torch = "^2.12.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -16,4 +16,3 @@ class Scaler:
 
         return df
       
-print(f"features scaled")

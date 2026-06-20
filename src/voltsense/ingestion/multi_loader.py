@@ -15,18 +15,23 @@ class DataLoader:
 
         return df
      
-    def sample_by_house(self, df, house_sample_size: int, random_state: int = 42):
+
+
+    def sample_by_house(
+       self,
+       df,
+       house_sample_size: int = 20):
 
         sampled_df = (
-            df.groupby("house_id", group_keys=False)
-              .apply(lambda x: x.sample(
-                  n=min(len(x), house_sample_size),
-                  random_state=random_state
-              ))
-              .reset_index(drop=True)
+        df.sort_values(["house_id", "unix"])
+          .groupby("house_id", group_keys=False)
+          .head(house_sample_size)
+          .reset_index(drop=True)
         )
 
         return sampled_df
+
+
     
     """
     Randomly samples up to `house_sample_size`
@@ -36,4 +41,3 @@ class DataLoader:
     Not recommended for sequence modeling
     because temporal order is lost.
     """
-    print(f"data loaded")

@@ -3,6 +3,10 @@ from src.voltsense.cleaning.clean import DataCleaner
 from src.voltsense.features.feature import FeatureEngineer
 from src.voltsense.preprocessing.scaler import Scaler
 from src.voltsense.dataset.sequence_builder import SequenceBuilder
+from src.voltsense.models.train import train_model
+
+
+
 
 
 def run_pipeline():
@@ -55,12 +59,12 @@ def run_pipeline():
 
     X, y = builder.create_sequences(df)
 
-    print("Sequences created")
-    print("X shape:", X.shape)
-    print("y shape:", y.shape)
-
     return X, y
+    
+    
 
 
 if __name__ == "__main__":
     X, y = run_pipeline()
+    
+    model = train_model(X, y)
